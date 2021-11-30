@@ -63,6 +63,15 @@ flutter:
     - assets/images/menus/entree.png
     - assets/images/menus/pizza.png
     - assets/images/menus/pizza_large.png
+    - assets/images/pizza/pizza-bbq.jpg
+    - assets/images/pizza/pizza-capers.png
+    - assets/images/pizza/pizza-frankfurt.png
+    - assets/images/pizza/pizza-hawai.jpg
+    - assets/images/pizza/pizza-merguez.png
+    - assets/images/pizza/pizza-salami.png
+    - assets/images/pizza/pizza-sausage.png
+    - assets/images/pizza/pizza-spinach.jpg
+    - assets/images/pizza/pizza-vegetable.jpg
 
 
   # To add assets to your application, add an assets section, like this:
