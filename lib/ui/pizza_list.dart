@@ -1,14 +1,17 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pizzeria/models/cart.dart';
 import 'package:pizzeria/models/pizza.dart';
 import 'package:pizzeria/models/pizza_data.dart';
 import 'package:pizzeria/ui/pizza_details.dart';
+import 'package:pizzeria/ui/share/appbar_widget.dart';
 import 'package:pizzeria/ui/share/buy_button_widget.dart';
 
 
 class PizzaList extends StatefulWidget {
-  const PizzaList  ({Key? key}) : super(key: key);
+  final Cart _cart;
+  const PizzaList  (this._cart, {Key? key}) : super(key: key);
 
   @override
   _PizzaListState createState() => _PizzaListState();
@@ -18,6 +21,8 @@ class _PizzaListState extends State<PizzaList> {
   //la liste des pizzas
   List<Pizza> _pizzas = [];
 
+
+
   @override
   void initState() {
     _pizzas = PizzaData.buildList();
@@ -26,9 +31,7 @@ class _PizzaListState extends State<PizzaList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Nos pizzas'),
-        ),
+        appBar: AppBarWidget('Nos pizzas', widget._cart),
         body: ListView.builder(
             padding: const EdgeInsets.all(8.0),
 //itemExtent:,
@@ -54,13 +57,13 @@ class _PizzaListState extends State<PizzaList> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => PizzaDetails(pizza)
+                  builder: (context) => PizzaDetails(pizza, widget._cart),
               ),
             );
           },
           child: _buildPizzaDetails(pizza),
         ),
-        BuyButtonWidget(),
+        BuyButtonWidget(pizza, widget._cart),
       ],
      ),
     );
@@ -92,30 +95,7 @@ class _PizzaListState extends State<PizzaList> {
     );
   }
 
-  _buildBuyButton() {
-    return
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.red.shade800)
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.shopping_cart),
-                  SizedBox(width: 5),
-                  Text("Commander"),
-                ],
-              ),
-              onPressed: () {
-                print('Commander pizza');
-              }
-          )
-        ],
-      );
-  }
+
 
 
 }
