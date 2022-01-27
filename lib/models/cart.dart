@@ -42,4 +42,13 @@ class Cart {
     return _items.indexWhere((element) => element.pizza.id == id);
   }
 
+  double totalPrice() {
+    double totalPrice = 0.0;
+    _items.forEach((element) {
+      totalPrice += element.pizza.price * element.quantity;
+    });
+    return totalPrice;
+  }
+
+
 }
