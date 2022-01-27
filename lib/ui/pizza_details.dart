@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:pizzeria/models/cart.dart';
 import 'package:pizzeria/models/option_item.dart';
 import 'package:pizzeria/models/pizza.dart';
+import 'package:pizzeria/ui/share/appbar_widget.dart';
 import 'package:pizzeria/ui/share/buy_button_widget.dart';
 import 'package:pizzeria/ui/share/pizzeria_style.dart';
 import 'package:pizzeria/ui/share/total_widget.dart';
 
 class PizzaDetails extends StatefulWidget {
   final Pizza _pizza;
+  final Cart _cart;
 
-   const PizzaDetails(this._pizza, {Key? key}) : super(key: key);
+   const PizzaDetails(this._pizza, this._cart, {Key? key}) : super(key: key);
 
   @override
   _PizzaDetailsState createState() => _PizzaDetailsState();
@@ -18,9 +21,7 @@ class _PizzaDetailsState extends State<PizzaDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget._pizza.title),
-      ),
+      appBar: AppBarWidget('', widget._cart),
       body: ListView(
         padding: EdgeInsets.all(4.0),
         children: [
@@ -54,36 +55,12 @@ class _PizzaDetailsState extends State<PizzaDetails> {
                style: PizzeriaStyle.headerTextStyle),
           _buildDropDownSauces(),
           TotalWidget(widget._pizza.total),
-          BuyButtonWidget(),
+          BuyButtonWidget(widget._pizza, widget._cart),
         ],
       ),
     );
   }
 
-  _buildBuyButton() {
-    return
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor:
-                MaterialStateProperty.all<Color>(Colors.red.shade800)
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.shopping_cart),
-                  SizedBox(width: 5),
-                  Text("Commander"),
-                ],
-              ),
-              onPressed: () {
-                print('Commander pizza');
-              }
-              )
-          ],
-        );
-  }
 
   _buildDropDownPates() {
     return DropdownButton<OptionItem>(
