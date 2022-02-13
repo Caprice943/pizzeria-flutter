@@ -73,8 +73,8 @@ _buildItem(CartItem cartItem) {
     return Row();
   } else {
     return Row(children: [
-      Image.asset(
-        'assets/images/pizza/${cartItem.pizza.image}',
+      Image.network(
+        '${cartItem.pizza.image}',
         height: 100,
         fit: BoxFit.fitWidth,
       ),
@@ -101,13 +101,17 @@ _buildItem(CartItem cartItem) {
             children: [
               ElevatedButton(
                   onPressed: () => {
-                        {cartItem.quantity++},
+                        setState(() {
+                          cartItem.quantity++;
+                        })
                       },
                   child: Text('+')),
               Text(cartItem.quantity.toString()),
               ElevatedButton(
                   onPressed: () => {
-                        {cartItem.quantity--}
+                        setState(() {
+                          cartItem.quantity--;
+                        })
                       },
                   child: Text('-'))
             ],
@@ -117,3 +121,5 @@ _buildItem(CartItem cartItem) {
     ]);
   }
 }
+
+setState(Null Function() param0) {}

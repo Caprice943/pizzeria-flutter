@@ -1,11 +1,18 @@
 import 'package:pizzeria/models/option_item.dart';
 
-class Pizza{
+class Pizza {
   final int id;
   final String title;
   final String garniture;
   final String image;
   final double price;
+
+  Pizza.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        title = json['title'],
+        garniture = json['garniture'],
+        image = json['image'],
+        price = json['price'];
 
   //la sélection de l'utilisateur
   int pate = 0;
@@ -33,15 +40,12 @@ class Pizza{
   double get total {
     double total = price; //prix de base
 
-    total += pates[pate].supplement;  //Pâte
+    total += pates[pate].supplement; //Pâte
     total += tailles[taille].supplement; //Taille
     total += sauces[sauce].supplement; //Sauce
 
     return total;
   }
 
-
-
   Pizza(this.id, this.title, this.garniture, this.image, this.price);
-
 }
