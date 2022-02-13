@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  MyHomePage(title: 'Notre pizzeria'),
+      home: MyHomePage(title: 'Notre pizzeria'),
     );
   }
 }
@@ -29,8 +29,8 @@ class MyHomePage extends StatelessWidget {
   String title;
   Cart _cart;
 
-  MyHomePage({required this.title , Key ? key}) :
-        _cart = Cart(),
+  MyHomePage({required this.title, Key? key})
+      : _cart = Cart(),
         super(key: key);
   //const ({Key? key}) : super(key: key);
 
@@ -48,36 +48,31 @@ class MyHomePage extends StatelessWidget {
         appBar: AppBarWidget(title, _cart),
         body: Center(
             child: ListView.builder(
-              itemCount: _menus.length,
-              itemBuilder: (context, index) => InkWell(
-                onTap: () {
-                  switch (_menus[index].type) {
-                    case 2:
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => PizzaList(_cart)),
-                      );
-                      break;
-                  }
-                },
-                child: _buildRow(_menus[index]),
-              ),
-              itemExtent: 180,
-            )
-        )
-    );
-
+          itemCount: _menus.length,
+          itemBuilder: (context, index) => InkWell(
+            onTap: () {
+              switch (_menus[index].type) {
+                case 2:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PizzaList(_cart)),
+                  );
+                  break;
+              }
+            },
+            child: _buildRow(_menus[index]),
+          ),
+          itemExtent: 180,
+        )));
   }
 }
 
-_buildRow(Menu menu){
+_buildRow(Menu menu) {
   return Container(
     height: 180,
     decoration: BoxDecoration(
         color: menu.color,
-        borderRadius: BorderRadius.all(Radius.circular(20.0))
-    ),
-
+        borderRadius: BorderRadius.all(Radius.circular(20.0))),
     margin: EdgeInsets.all(4.0),
     child: Column(
       children: <Widget>[
@@ -88,17 +83,17 @@ _buildRow(Menu menu){
           ),
         ),
         Container(
-            height: 50,
-            child: Center(
-                child: Text(
-                    menu.title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Roboto',
-                      fontSize: 28,
-                    ),
-                ),
+          height: 50,
+          child: Center(
+            child: Text(
+              menu.title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Roboto',
+                fontSize: 28,
+              ),
             ),
+          ),
         ),
       ],
     ),

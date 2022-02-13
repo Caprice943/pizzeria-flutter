@@ -15,10 +15,10 @@ class PizzeriaStyle {
   static final TextStyle regularTextStyle = baseTextStyle.copyWith(
     fontSize: 18.0,
   );
-  static final TextStyle subHeaderTextStyle = baseTextStyle.copyWith(
-      fontSize: 26.0);
-  static final TextStyle itemPriceTextStyle = const TextStyle(
-      color: Colors.blueGrey);
+  static final TextStyle subHeaderTextStyle =
+      baseTextStyle.copyWith(fontSize: 26.0);
+  static final TextStyle itemPriceTextStyle =
+      const TextStyle(color: Colors.blueGrey);
   static final TextStyle subPriceTextStyle = baseTextStyle.copyWith(
     color: Colors.indigo,
     fontSize: 20.0,
@@ -27,13 +27,11 @@ class PizzeriaStyle {
     color: Colors.blueGrey,
     fontSize: 20.0,
     fontWeight: FontWeight.bold,
-
   );
   static final TextStyle priceTotalTextStyle = baseTextStyle.copyWith(
     color: Colors.indigo,
     fontSize: 22.0,
   );
-
-
-
+  static final TextStyle errorTextStyle =
+      baseTextStyle.copyWith(color: Colors.red, fontSize: 22.0);
 }
