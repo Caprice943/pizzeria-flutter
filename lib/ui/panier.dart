@@ -25,7 +25,8 @@ class _PanierState extends State<Panier> {
               padding: const EdgeInsets.all(8.0),
               itemCount: widget._cart.totalItems(),
               itemBuilder: (context, index) {
-                return _buildItem(widget._cart.getCartItem(index));
+                return _buildItem(
+                    widget._cart, widget._cart.getCartItem(index));
               },
             ),
           ),
@@ -66,60 +67,58 @@ class _PanierState extends State<Panier> {
       ),
     );
   }
-}
 
-_buildItem(CartItem cartItem) {
-  if (cartItem.quantity < 1) {
-    return Row();
-  } else {
-    return Row(children: [
-      Image.network(
-        '${cartItem.pizza.image}',
-        height: 100,
-        fit: BoxFit.fitWidth,
-      ),
-      Column(
-        children: [
-          Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(cartItem.pizza.title,
-                style: TextStyle(fontWeight: FontWeight.bold))
-          ]),
-          Row(children: [
-            Text('${cartItem.pizza.price} €',
-                style:
-                    TextStyle(fontStyle: FontStyle.italic, color: Colors.grey))
-          ]),
-          Row(children: [
-            Text('Sous-total : '),
-            Text('${cartItem.pizza.price * cartItem.quantity} €')
-          ]),
-        ],
-      ),
-      Column(
-        children: [
-          Row(
-            children: [
-              ElevatedButton(
-                  onPressed: () => {
-                        setState(() {
-                          cartItem.quantity++;
-                        })
-                      },
-                  child: Text('+')),
-              Text(cartItem.quantity.toString()),
-              ElevatedButton(
-                  onPressed: () => {
-                        setState(() {
-                          cartItem.quantity--;
-                        })
-                      },
-                  child: Text('-'))
-            ],
-          )
-        ],
-      )
-    ]);
+  _buildItem(Cart cart, CartItem cartItem) {
+    if (cartItem.quantity < 1) {
+      return Row();
+    } else {
+      return Row(children: [
+        Image.network(
+          '${cartItem.pizza.image}',
+          height: 100,
+          fit: BoxFit.fitWidth,
+        ),
+        Column(
+          children: [
+            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(cartItem.pizza.title,
+                  style: TextStyle(fontWeight: FontWeight.bold))
+            ]),
+            Row(children: [
+              Text('${cartItem.pizza.price} €',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic, color: Colors.grey))
+            ]),
+            Row(children: [
+              Text('Sous-total : '),
+              Text('${cartItem.pizza.price * cartItem.quantity} €')
+            ]),
+          ],
+        ),
+        Column(
+          children: [
+            Row(
+              children: [
+                ElevatedButton(
+                    onPressed: () => {
+                          setState(() {
+                            cart.addProduct(cartItem.pizza);
+                          })
+                        },
+                    child: Text('+')),
+                Text(cartItem.quantity.toString()),
+                ElevatedButton(
+                    onPressed: () => {
+                          setState(() {
+                            cart.removeProduct(cartItem.pizza);
+                          })
+                        },
+                    child: Text('-'))
+              ],
+            )
+          ],
+        )
+      ]);
+    }
   }
 }
-
-setState(Null Function() param0) {}

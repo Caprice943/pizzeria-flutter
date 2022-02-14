@@ -5,21 +5,23 @@ class CartItem {
   int quantity;
 
   CartItem(this.pizza, [this.quantity = 1]);
-
 }
 
 class Cart {
   List<CartItem> _items = [];
 
-  int totalItems() { return _items.length; }
+  int totalItems() {
+    return _items.length;
+  }
+
   CartItem getCartItem(int index) {
     return _items[index];
   }
 
-  void addProduct(Pizza pizza){
+  void addProduct(Pizza pizza) {
     //Recherche du produit
     int index = findCartItemIndex(pizza.id);
-    if(index == -1){
+    if (index == -1) {
       //Ajout
       _items.add(CartItem(pizza));
     } else {
@@ -29,16 +31,20 @@ class Cart {
     }
   }
 
-  void removeProduct(Pizza pizza){
+  void removeProduct(Pizza pizza) {
     //Recherche du produit
     int index = findCartItemIndex(pizza.id);
-    if(index != -1) {
+    if (index != -1) {
+      //Retrait
+      CartItem item = _items[index];
+      item.quantity--;
+    } else {
       //Suppression
       _items.removeAt(index);
     }
   }
 
-  int findCartItemIndex(int id){
+  int findCartItemIndex(int id) {
     return _items.indexWhere((element) => element.pizza.id == id);
   }
 
@@ -49,6 +55,4 @@ class Cart {
     });
     return totalPrice;
   }
-
-
 }
