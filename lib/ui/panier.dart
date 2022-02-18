@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:pizzeria/models/cart.dart';
+import 'package:pizzeria/ui/share/bottom_navigation_bar_widget.dart';
+import 'package:pizzeria/ui/share/pizzeria_style.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/src/provider.dart';
+import 'package:intl/intl.dart';
 
 class Panier extends StatefulWidget {
-  final Cart _cart;
-
-  const Panier(this._cart, {Key? key}) : super(key: key);
+  const Panier({Key? key}) : super(key: key);
 
   @override
   _PanierState createState() => _PanierState();
@@ -16,55 +20,37 @@ class _PanierState extends State<Panier> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Panier'),
+        title: Text('Mon panier'),
       ),
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
+            child: Padding(
               padding: const EdgeInsets.all(8.0),
-              itemCount: widget._cart.totalItems(),
-              itemBuilder: (context, index) {
-                return _buildItem(
-                    widget._cart, widget._cart.getCartItem(index));
-              },
+              child: _CartList(),
             ),
           ),
-          Table(
-            columnWidths: const <int, TableColumnWidth>{
-              0: FlexColumnWidth(),
-              1: FixedColumnWidth(150),
-              2: FixedColumnWidth(80),
-            },
-            defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
-            children: [
-              TableRow(children: [
-                Container(
-                  padding: EdgeInsets.all(6.0),
-                  child: Text('Total'),
-                )
-              ])
-            ],
-          ),
-          Text('${widget._cart.totalPrice()} €'),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      child: Text('Valider'),
-                      style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(5.0), primary: Colors.red),
-                      onPressed: () {
-                        print('Valider');
-                      },
-                    )),
-              )
-            ],
-          )
+          _CartTotal(),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBarWidget(2),
+    );
+  }
+}
+
+class _CartList extends StatelessWidget {
+  var format = NumberFormat("###.00 €");
+
+  @override
+  Widget build(BuildContext context) {
+    var cart = context.watch<Cart>();
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(8.0),
+      itemCount: cart.totalItems(),
+      itemBuilder: (context, index) {
+        return _buildItem(cart, cart.getCartItem(index));
+      },
     );
   }
 
@@ -100,19 +86,11 @@ class _PanierState extends State<Panier> {
             Row(
               children: [
                 ElevatedButton(
-                    onPressed: () => {
-                          setState(() {
-                            cart.addProduct(cartItem.pizza);
-                          })
-                        },
+                    onPressed: () => {cart.addProduct(cartItem.pizza)},
                     child: Text('+')),
                 Text(cartItem.quantity.toString()),
                 ElevatedButton(
-                    onPressed: () => {
-                          setState(() {
-                            cart.removeProduct(cartItem.pizza);
-                          })
-                        },
+                    onPressed: () => {cart.removeProduct(cartItem.pizza)},
                     child: Text('-'))
               ],
             )
@@ -120,5 +98,68 @@ class _PanierState extends State<Panier> {
         )
       ]);
     }
+  }
+}
+
+class _CartTotal extends StatelessWidget {
+  var format = NumberFormat("###.00 €");
+
+  @override
+  Widget build(BuildContext context) {
+    var cart = context.watch<Cart>();
+
+    return Container(
+      padding: EdgeInsets.all(12.0),
+      height: 220,
+      child: Consumer<Cart>(builder: (context, cart, child) {
+        final double _total = cart.totalPrice();
+
+        if (_total == 0) {
+          return Center(
+            child:
+                Text('Aucun produit', style: PizzeriaStyle.priceTotalTextStyle),
+          );
+        } else {
+          return Column(
+            children: [
+              Table(
+                columnWidths: const <int, TableColumnWidth>{
+                  0: FlexColumnWidth(),
+                  1: FixedColumnWidth(150),
+                  2: FixedColumnWidth(80),
+                },
+                defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
+                children: [
+                  TableRow(children: [
+                    Container(
+                      padding: EdgeInsets.all(6.0),
+                      child: Text('Total'),
+                    )
+                  ])
+                ],
+              ),
+              Text('${cart.totalPrice()} €'),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                        padding: EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          child: Text('Valider'),
+                          style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.all(5.0),
+                              primary: Colors.red),
+                          onPressed: () {
+                            print('Valider');
+                          },
+                        )),
+                  )
+                ],
+              )
+            ],
+          );
+        }
+      }),
+    );
   }
 }
