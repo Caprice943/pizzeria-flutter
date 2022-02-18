@@ -6,13 +6,12 @@ import '../panier.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final Cart _cart;
 
   @override
   //TODO: implement preferredSize
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 
-  const AppBarWidget(this.title, this._cart, {Key? key}) : super(key: key);
+  const AppBarWidget(this.title, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +19,14 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       title: Text(title),
       actions: [
         IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Panier(_cart),
-                  ));
-            },
-            icon: Icon(Icons.shopping_cart),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Panier(),
+                ));
+          },
+          icon: Icon(Icons.shopping_cart),
         )
       ],
     );

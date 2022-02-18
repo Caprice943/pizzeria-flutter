@@ -6,12 +6,12 @@ import 'package:pizzeria/models/pizza_data.dart';
 import 'package:pizzeria/services/pizzeria_service.dart';
 import 'package:pizzeria/ui/pizza_details.dart';
 import 'package:pizzeria/ui/share/appbar_widget.dart';
+import 'package:pizzeria/ui/share/bottom_navigation_bar_widget.dart';
 import 'package:pizzeria/ui/share/buy_button_widget.dart';
 import 'package:pizzeria/ui/share/pizzeria_style.dart';
 
 class PizzaList extends StatefulWidget {
-  final Cart _cart;
-  const PizzaList(this._cart, {Key? key}) : super(key: key);
+  const PizzaList({Key? key}) : super(key: key);
 
   @override
   _PizzaListState createState() => _PizzaListState();
@@ -30,7 +30,7 @@ class _PizzaListState extends State<PizzaList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget('Nos pizzas', widget._cart),
+      appBar: AppBarWidget('Nos pizzas'),
       body: FutureBuilder<List<Pizza>>(
         future: _pizzas,
         builder: (context, snapshot) {
@@ -47,6 +47,7 @@ class _PizzaListState extends State<PizzaList> {
           return Center(child: CircularProgressIndicator());
         },
       ),
+      bottomNavigationBar: BottomNavigationBarWidget(2),
     );
   }
 
@@ -72,13 +73,13 @@ class _PizzaListState extends State<PizzaList> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PizzaDetails(pizza, widget._cart),
+                  builder: (context) => PizzaDetails(pizza),
                 ),
               );
             },
             child: _buildPizzaDetails(pizza),
           ),
-          BuyButtonWidget(pizza, widget._cart),
+          BuyButtonWidget(pizza),
         ],
       ),
     );
